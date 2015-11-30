@@ -1,0 +1,1 @@
+﻿get-childitem Z:\ -Recurse | Where-Object { $_.PSIsContainer } | foreach-object {get-acl $_.FullName} | Select-Object @{n='Path';e={ (Get-Item $_.PSPath).FullName }}, Owner, @{n='Accesstostring';e={ [String]::Join("`n", $( $_.Access | %{"$($_.IdentityReference) $($_.AccessControlType) $($_.IsInherited) $($_.InheritanceFlags)" })) }} | Export-Csv "H:\ACL-Dump.csv"
